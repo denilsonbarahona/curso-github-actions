@@ -1,0 +1,24 @@
+name: Expresion practica
+
+on:
+  pull_request:
+    branches:
+      - denil-test
+    types: [opened, synchronize, reopened, labeled]
+
+jobs:
+  on-pull-request:
+    if: github.event.action != 'labeled'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: echo "ACTION=pull_request" >> "$GITHUB_ENV"
+      - run: node expression.js
+
+  on-labeled:
+    if: github.event.action == 'labeled'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: echo "ACTION=labeled" >> "$GITHUB_ENV"
+      - run: node expression.js
